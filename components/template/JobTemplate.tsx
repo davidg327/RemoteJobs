@@ -1,20 +1,27 @@
 import React from "react";
-import {View} from "react-native";
+import {ScrollView, View} from "react-native";
 import {IconSymbol} from "@/components/atoms";
 import {Header, Search} from "@/components/molecules";
-import {ListJobs} from "@/components/organisms";
+import {CardTypeJob, ListJobs} from "@/components/organisms";
 import {useJobTemplate} from "@/hooks/template/use-job-template";
 
 export function JobTemplate () {
 
     const {
         color,
+        filter,
+        filterJobs,
         loading,
         newLoading,
+        search,
         styles,
+        typeJob,
         visibleJobs,
+        disabledJobsFilter,
         moreJobs,
         refreshJobs,
+        selectFilter,
+        setSearch,
     } = useJobTemplate();
 
     return (
@@ -22,19 +29,34 @@ export function JobTemplate () {
             <Header text={'Lista de Empleos'} />
             <View style={styles.containerSearch}>
                 <Search
-                    value={''}
-                    onChangeText={() => {}}
+                    value={search}
+                    onChangeText={setSearch}
                     placeholder="Buscar empleo"
                 />
                 <View style={styles.containerFilter}>
                     <IconSymbol size={28} name="filter.fill" color={color} />
                 </View>
             </View>
+            <View >
+                <ScrollView
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={styles.containerTypes}>
+                    {typeJob.length > 0 && typeJob.map((type, index) => (
+                        <CardTypeJob
+                            filter={filter}
+                            key={`${type}-${index}`}
+                            typeJob={type}
+                            selectFilter={() => selectFilter(type)}
+                        />
+                    ))}
+                </ScrollView>
+            </View>
             <ListJobs
-                jobs={visibleJobs}
+                jobs={disabledJobsFilter ? visibleJobs : filterJobs}
                 loading={loading}
                 newLoading={newLoading}
-                text={'No hay ofertas en estos momentos'}
+                text={disabledJobsFilter ? 'No hay ofertas en estos momentos' : 'No hay coincidencias'}
                 moreJobs={moreJobs}
                 refreshJobs={refreshJobs}
             />

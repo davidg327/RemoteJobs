@@ -14,7 +14,7 @@ export function EmptyTemplate ({text}: IEmptyTemplate) {
             <Image
                 source={require('@/assets/images/nodata.png')}
                 style={styles.image}
-                resizeMode='contain'
+                contentFit='contain'
             />
             <ThemedText
                 type='title'

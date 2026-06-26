@@ -8,6 +8,7 @@ type JobState = {
     error: string;
     getJobs: () => Promise<void>;
     jobs: IJobs[];
+    typeJob: string[];
 };
 
 export const useJobStore = create<JobState>((set) => ({
@@ -15,13 +16,18 @@ export const useJobStore = create<JobState>((set) => ({
     jobCounts: 0,
     error: '',
     jobs: [],
+    typeJob: [],
     getJobs: async () => {
         try {
             const jobs = await apiGetJobs();
+            const jobTypes = jobs.jobs.map((job) => {
+                return job.jobType;
+            })
             set({
                 jobCounts: jobs.jobCount,
                 jobs: jobs.jobs,
                 loading: false,
+                typeJob: [...new Set(jobTypes)]
             });
         } catch (error){
             set({

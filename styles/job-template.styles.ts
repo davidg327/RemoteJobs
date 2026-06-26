@@ -19,5 +19,9 @@ export const JobTemplateStyles = (colorScheme: 'light' | 'dark' | null | undefin
             justifyContent: 'space-between',
             paddingVertical: 10,
             paddingHorizontal: 20,
-        }
+        },
+        containerTypes: {
+            paddingLeft: 20,
+            paddingRight: 20,
+        },
     });

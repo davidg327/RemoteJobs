@@ -61,7 +61,7 @@ export function ListJobs({
 const styles = StyleSheet.create({
     container: {
         paddingTop: 20,
-        paddingBottom: 120,
+        paddingBottom: 140,
     }
 });
 
