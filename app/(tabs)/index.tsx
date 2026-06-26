@@ -1,30 +1,30 @@
 import {View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {useJob} from "@/hooks/use-job";
 import {JobTemplate} from "@/components/template/JobTemplate";
-import {JobStyles} from "@/styles/job.styles";
-import {Spinner} from "@/components/components";
+import {Spinner} from "@/components/molecules";
 
 export default function HomeScreen() {
 
   const {
-    loading,
-    colorScheme
+      jobs,
+      loading,
+      styles
   } = useJob();
 
-  const styles = JobStyles(colorScheme);
 
   return (
-    <View style={styles.container} >
+    <SafeAreaView style={styles.container} >
       <>
         {!loading && (
             <JobTemplate />
         )}
-        {loading && (
+        {loading && jobs.length === 0 && (
             <View style={styles.containerLoad}>
                 <Spinner text={'Cargando ...'} />
             </View>
         )}
       </>
-    </View>
+    </SafeAreaView>
   );
 }

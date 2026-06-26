@@ -6,7 +6,7 @@ import {Colors} from "@/constants/theme";
 interface ISpinner {
     text: string;
 }
-export const Spinner = ({text}: ISpinner) => {
+export function Spinner ({text}: ISpinner) {
     const colorScheme = useColorScheme();
 
     const color = Colors[colorScheme ?? 'light'].success;
