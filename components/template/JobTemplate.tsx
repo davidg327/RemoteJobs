@@ -1,9 +1,9 @@
 import React from "react";
 import {View} from "react-native";
-import {Header, Search} from "@/components/molecules";
-import {useJobTemplate} from "@/hooks/template/use-job-template";
 import {IconSymbol} from "@/components/atoms";
+import {Header, Search} from "@/components/molecules";
 import {ListJobs} from "@/components/organisms";
+import {useJobTemplate} from "@/hooks/template/use-job-template";
 
 export function JobTemplate () {
 
@@ -34,6 +34,7 @@ export function JobTemplate () {
                 jobs={visibleJobs}
                 loading={loading}
                 newLoading={newLoading}
+                text={'No hay ofertas en estos momentos'}
                 moreJobs={moreJobs}
                 refreshJobs={refreshJobs}
             />

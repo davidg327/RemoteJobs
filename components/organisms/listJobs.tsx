@@ -2,6 +2,7 @@ import {JSX} from "react";
 import {FlatList, StyleSheet} from "react-native";
 import {LoadingComponent} from "@/components/atoms";
 import {CardJob} from "@/components/organisms/cardJob";
+import {EmptyTemplate} from "@/components/template/EmptyTemplate";
 import {useColorScheme} from "@/hooks/use-color-scheme";
 import {IJobs} from "@/interface/jobs";
 import {Colors} from "@/constants/theme";
@@ -10,6 +11,7 @@ interface IListJob {
     jobs: IJobs[];
     loading: boolean;
     newLoading: boolean;
+    text: string;
     moreJobs: () => void;
     refreshJobs: () => void;
 }
@@ -17,6 +19,7 @@ export function ListJobs({
                              jobs,
                              loading,
                              newLoading,
+                             text,
                              moreJobs,
                              refreshJobs,
                          }: IListJob) {
@@ -43,6 +46,9 @@ export function ListJobs({
                 }
             }}
             onEndReachedThreshold={0.5}
+            ListEmptyComponent={
+                <EmptyTemplate text={text} />
+            }
             ListFooterComponent={
                 loading ? (
                     <LoadingComponent size={'small'} color={color} />

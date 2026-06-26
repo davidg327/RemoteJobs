@@ -8,7 +8,9 @@ export function useJob() {
     const colorScheme = useColorScheme();
 
     const getJobs = useJobStore((state) => state.getJobs);
+    const error = useJobStore((state) => state.error);
     const jobs = useJobStore((state) => state.jobs);
+    const jobCounts = useJobStore((state) => state.jobCounts);
     const loading = useJobStore((state) => state.loading);
 
     const styles = JobStyles(colorScheme);
@@ -25,7 +27,9 @@ export function useJob() {
     }, [getAllJobs]);
 
     return {
+        error,
         jobs,
+        jobCounts,
         loading,
         styles,
     };
