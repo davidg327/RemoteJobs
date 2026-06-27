@@ -12,15 +12,14 @@ interface IType {
 export function CardTypeJob({filter, typeJob, selectFilter}: IType) {
     const colorScheme = useColorScheme();
     const styles =  stylesCard(colorScheme);
-
-    const background = filter.find((value) => value === typeJob);
+    const background = filter.includes(typeJob);
     return (
         <TouchableOpacity
             onPress={selectFilter}
             style={{...styles.container,
                 backgroundColor: background ? Colors[colorScheme ?? 'light'].success : Colors[colorScheme ?? 'light'].background}}>
             <ThemedText type='simpleText'>
-                {typeJobs[typeJob]}
+                {typeJobs[typeJob] ?? typeJob}
             </ThemedText>
         </TouchableOpacity>
     )

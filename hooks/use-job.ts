@@ -8,6 +8,7 @@ export function useJob() {
     const colorScheme = useColorScheme();
 
     const getJobs = useJobStore((state) => state.getJobs);
+    const getCategories = useJobStore((state) => state.getCategories);
     const error = useJobStore((state) => state.error);
     const jobs = useJobStore((state) => state.jobs);
     const jobCounts = useJobStore((state) => state.jobCounts);
@@ -20,11 +21,19 @@ export function useJob() {
         getJobs();
     }, [getJobs]);
 
+    const getAllCategories = useCallback(() => {
+        getCategories();
+    }, [getCategories]);
+
     useEffect(() => {
         setTimeout(() => {
             getAllJobs();
         }, 5000);
     }, [getAllJobs]);
+
+    useEffect(() => {
+        getAllCategories();
+    }, [getAllCategories]);
 
     return {
         error,

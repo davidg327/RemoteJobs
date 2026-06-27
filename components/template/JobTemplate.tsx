@@ -1,13 +1,15 @@
 import React from "react";
-import {ScrollView, View} from "react-native";
+import {ScrollView, TouchableOpacity, View} from "react-native";
 import {IconSymbol} from "@/components/atoms";
 import {Header, Search} from "@/components/molecules";
-import {CardTypeJob, ListJobs} from "@/components/organisms";
+import {CardTypeJob, ListJobs, ModalCategories} from "@/components/organisms";
 import {useJobTemplate} from "@/hooks/template/use-job-template";
 
 export function JobTemplate () {
 
     const {
+        bottomSheetRef,
+        categories,
         color,
         filter,
         filterJobs,
@@ -21,45 +23,56 @@ export function JobTemplate () {
         moreJobs,
         refreshJobs,
         selectFilter,
+        selectVariousFilter,
         setSearch,
     } = useJobTemplate();
 
     return (
-        <View >
-            <Header text={'Lista de Empleos'} />
-            <View style={styles.containerSearch}>
-                <Search
-                    value={search}
-                    onChangeText={setSearch}
-                    placeholder="Buscar empleo"
-                />
-                <View style={styles.containerFilter}>
-                    <IconSymbol size={28} name="filter.fill" color={color} />
-                </View>
-            </View>
+        <>
             <View >
-                <ScrollView
-                    horizontal={true}
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={styles.containerTypes}>
-                    {typeJob.length > 0 && typeJob.map((type, index) => (
-                        <CardTypeJob
-                            filter={filter}
-                            key={`${type}-${index}`}
-                            typeJob={type}
-                            selectFilter={() => selectFilter(type)}
-                        />
-                    ))}
-                </ScrollView>
+                <Header text={'Lista de Empleos'} />
+                <View style={styles.containerSearch}>
+                    <Search
+                        value={search}
+                        onChangeText={setSearch}
+                        placeholder="Buscar empleo"
+                    />
+                    <TouchableOpacity
+                        onPress={() => bottomSheetRef.current?.expand()}
+                        style={styles.containerFilter}>
+                        <IconSymbol size={28} name="filter.fill" color={color} />
+                    </TouchableOpacity>
+                </View>
+                <View >
+                    <ScrollView
+                        horizontal={true}
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={styles.containerTypes}>
+                        {typeJob.length > 0 && typeJob.map((type, index) => (
+                            <CardTypeJob
+                                filter={filter}
+                                key={`${type}-${index}`}
+                                typeJob={type}
+                                selectFilter={() => selectFilter(type)}
+                            />
+                        ))}
+                    </ScrollView>
+                </View>
+                <ListJobs
+                    jobs={disabledJobsFilter ? visibleJobs : filterJobs}
+                    loading={loading}
+                    newLoading={newLoading}
+                    text={disabledJobsFilter ? 'No hay ofertas en estos momentos' : 'No hay coincidencias'}
+                    moreJobs={moreJobs}
+                    refreshJobs={refreshJobs}
+                />
             </View>
-            <ListJobs
-                jobs={disabledJobsFilter ? visibleJobs : filterJobs}
-                loading={loading}
-                newLoading={newLoading}
-                text={disabledJobsFilter ? 'No hay ofertas en estos momentos' : 'No hay coincidencias'}
-                moreJobs={moreJobs}
-                refreshJobs={refreshJobs}
+            <ModalCategories
+                categories={categories}
+                bottomSheetRef={bottomSheetRef}
+                filterDefault={filter}
+                selectVariousFilter={selectVariousFilter}
             />
-        </View>
+        </>
     )
 }

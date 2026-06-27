@@ -13,3 +13,11 @@ export const apiGetJobs= async () => {
         jobs: jobs.map(mapJob),
     };
 };
+
+export const apiGetCategories = async () => {
+    const response = await axiosInstance.get('remote-jobs/categories');
+    const categories  = response.data.jobs.map((item) => (item.name))
+    return {
+        categories,
+    };
+};

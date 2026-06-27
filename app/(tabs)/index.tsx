@@ -16,7 +16,6 @@ export default function HomeScreen() {
         styles
     } = useJob();
 
-
     return (
         <SafeAreaView style={styles.container} >
             <>

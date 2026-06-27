@@ -1,14 +1,16 @@
 import {create} from "zustand";
-import {apiGetJobs} from "@/services/jobService";
+import {apiGetCategories, apiGetJobs} from "@/services/jobService";
 import {IJobs} from "@/interface/jobs";
 
 type JobState = {
     loading: boolean;
     jobCounts: number;
     error: string;
-    getJobs: () => Promise<void>;
-    jobs: IJobs[];
+    categories: string[];
     typeJob: string[];
+    jobs: IJobs[];
+    getJobs: () => Promise<void>;
+    getCategories: () => Promise<void>;
 };
 
 export const useJobStore = create<JobState>((set) => ({
@@ -17,6 +19,7 @@ export const useJobStore = create<JobState>((set) => ({
     error: '',
     jobs: [],
     typeJob: [],
+    categories: [],
     getJobs: async () => {
         try {
             const jobs = await apiGetJobs();
@@ -35,5 +38,11 @@ export const useJobStore = create<JobState>((set) => ({
                 error: error
             });
         }
+    },
+    getCategories: async () => {
+        const categories = await apiGetCategories();
+        set({
+            categories: categories.categories
+        });
     },
 }));

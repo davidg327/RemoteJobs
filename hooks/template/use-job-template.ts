@@ -1,15 +1,18 @@
-import {useCallback, useEffect, useMemo, useState} from "react";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useColorScheme} from "@/hooks/use-color-scheme";
 import {useJobStore} from "@/store/job.store";
 import {Colors} from "@/constants/theme";
 import {IJobs} from "@/interface/jobs";
 import {JobTemplateStyles} from "@/styles/job-template.styles";
+import BottomSheet from "@gorhom/bottom-sheet";
+import {useFocusEffect} from "expo-router";
 
 const LIMIT = 6;
 
 export function useJobTemplate() {
 
     const colorScheme = useColorScheme();
+    const categories = useJobStore((state) => state.categories);
     const jobs = useJobStore((state) => state.jobs);
     const jobCounts = useJobStore((state) => state.jobCounts);
     const newLoading = useJobStore((state) => state.loading);
@@ -20,6 +23,8 @@ export function useJobTemplate() {
     const [loading, setLoading] = useState<boolean>(false);
     const [search, setSearch] = useState<string>('');
     const [filter, setFilter] = useState<string[]>([]);
+
+    const bottomSheetRef = useRef<BottomSheet | null>(null);
 
     const refreshJobs = () => {
         if(search !== '' && filter.length === 0) return;
@@ -46,6 +51,19 @@ export function useJobTemplate() {
         }
     }
 
+    const selectVariousFilter = (values: string[]) => {
+        if (values.length === 0) {
+            setFilter([]);
+            return;
+        }
+        setFilter(prev => {
+            const onlyJobTypes = prev.filter(item =>
+                typeJob.includes(item)
+            );
+            return [...onlyJobTypes, ...values];
+        });
+    }
+
 
     const filterJobs = useMemo(() => {
         let result = jobs;
@@ -61,10 +79,11 @@ export function useJobTemplate() {
             );
         }
 
-        //Filtrar por tipo de empleo
+        //Filtrar por tipo de empleo o categoria
         if (filter.length > 0) {
             result = result.filter(job =>
-                filter.includes(job.jobType)
+                filter.includes(job.jobType) ||
+                filter.includes(job.category)
             );
         }
 
@@ -78,7 +97,17 @@ export function useJobTemplate() {
     const color = Colors[colorScheme ?? 'light'].text;
     const styles = JobTemplateStyles(colorScheme);
 
+    useFocusEffect(
+        useCallback(() => {
+            return () => {
+                bottomSheetRef.current?.close();
+            };
+        }, [])
+    );
+
     return {
+        bottomSheetRef,
+        categories,
         color,
         filter,
         filterJobs,
@@ -92,6 +121,7 @@ export function useJobTemplate() {
         moreJobs,
         refreshJobs,
         selectFilter,
+        selectVariousFilter,
         setSearch,
     };
 }
