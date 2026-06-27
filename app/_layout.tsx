@@ -2,13 +2,12 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import Toast from "react-native-toast-message";
 import 'react-native-reanimated';
 import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -27,6 +26,7 @@ export default function RootLayout() {
                       />
                   </Stack>
                   <StatusBar style="auto" />
+                  <Toast />
               </ThemeProvider>
           </BottomSheetModalProvider>
       </GestureHandlerRootView>

@@ -1,12 +1,12 @@
-import { router } from "expo-router";
+import { useFocusEffect, router } from "expo-router";
+import BottomSheet from "@gorhom/bottom-sheet";
 import {useCallback, useMemo, useRef, useState} from "react";
 import {useColorScheme} from "@/hooks/use-color-scheme";
 import {useJobStore} from "@/store/job.store";
 import {Colors} from "@/constants/theme";
 import {IJobs} from "@/interface/jobs";
 import {JobTemplateStyles} from "@/styles/job-template.styles";
-import BottomSheet from "@gorhom/bottom-sheet";
-import {useFocusEffect} from "expo-router";
+
 
 const LIMIT = 6;
 

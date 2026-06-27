@@ -8,13 +8,17 @@ import {IconSymbol, ThemedText, ViewHtml} from "@/components/atoms";
 import {date} from "@/util/date";
 import {typeJobs} from "@/util/numTypeJob";
 import {categoryJobs} from "@/util/numCategoryJob";
+import {IJobs} from "@/interface/jobs";
 
 export function DetailJobTemplate () {
 
     const {
         color,
+        existFavorite,
         job,
         styles,
+        success,
+        favoriteJob,
         goBack,
         openJob,
         shareJob,
@@ -53,7 +57,11 @@ export function DetailJobTemplate () {
                             </ThemedText>
                         </View>
                         <View style={styles.containerIcons}>
-                            <IconSymbol name={'heart.fill'} color={color} size={40} />
+                            <TouchableOpacity
+                                onPress={() => favoriteJob(job as IJobs)}
+                            >
+                                <IconSymbol name={'heart.fill'} color={existFavorite ? success : color} size={40} />
+                            </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={() => shareJob(job?.url ?? '')}
                             >
