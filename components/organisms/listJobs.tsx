@@ -13,6 +13,7 @@ interface IListJob {
     newLoading: boolean;
     text: string;
     moreJobs: () => void;
+    redirect: (value: IJobs) => void;
     refreshJobs: () => void;
 }
 export function ListJobs({
@@ -21,6 +22,7 @@ export function ListJobs({
                              newLoading,
                              text,
                              moreJobs,
+                             redirect,
                              refreshJobs,
                          }: IListJob) {
     const colorScheme = useColorScheme();
@@ -28,7 +30,7 @@ export function ListJobs({
     const color = Colors[colorScheme ?? 'light'].success;
 
     const renderItem: ({item}: { item: any }) => JSX.Element = ({ item }) => (
-        <CardJob job={item} />
+        <CardJob job={item} redirect={() => redirect(item)} />
     );
 
     return (
@@ -61,7 +63,7 @@ export function ListJobs({
 const styles = StyleSheet.create({
     container: {
         paddingTop: 20,
-        paddingBottom: 140,
+        paddingBottom: 180,
     }
 });
 

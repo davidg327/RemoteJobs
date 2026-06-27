@@ -5,9 +5,10 @@ export const getOnlyName = (text: string) =>  {
 
 export const getCity = (job: string, country: string) => {
     const name = job.split('(');
+    const location = country === 'Worldwide' ? 'Todo el mundo' : country
     if(name.length > 1){
-        return `${name[1].replace(")", "").trim()} - ${country}`;
+        return `${name[1].replace(")", "").trim()} - ${location}`;
     }else {
-        return country
+        return location
     }
 }

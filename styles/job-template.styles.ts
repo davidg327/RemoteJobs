@@ -21,6 +21,7 @@ export const JobTemplateStyles = (colorScheme: 'light' | 'dark' | null | undefin
             paddingHorizontal: 20,
         },
         containerTypes: {
+            paddingBottom: 10,
             paddingLeft: 20,
             paddingRight: 20,
         },

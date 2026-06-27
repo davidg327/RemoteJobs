@@ -1,4 +1,5 @@
-import {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import { router } from "expo-router";
+import {useCallback, useMemo, useRef, useState} from "react";
 import {useColorScheme} from "@/hooks/use-color-scheme";
 import {useJobStore} from "@/store/job.store";
 import {Colors} from "@/constants/theme";
@@ -17,6 +18,7 @@ export function useJobTemplate() {
     const jobCounts = useJobStore((state) => state.jobCounts);
     const newLoading = useJobStore((state) => state.loading);
     const typeJob = useJobStore((state) => state.typeJob);
+    const getJob = useJobStore((state) => state.getJob);
     const getJobs = useJobStore((state) => state.getJobs);
 
     const [limit, setLimit] = useState<number>(LIMIT);
@@ -64,6 +66,10 @@ export function useJobTemplate() {
         });
     }
 
+    const redirect = (value: IJobs) => {
+        getJob(value);
+        router.push("/detailJob");
+    };
 
     const filterJobs = useMemo(() => {
         let result = jobs;
@@ -119,6 +125,7 @@ export function useJobTemplate() {
         visibleJobs,
         disabledJobsFilter: search === '' && filter.length === 0,
         moreJobs,
+        redirect,
         refreshJobs,
         selectFilter,
         selectVariousFilter,

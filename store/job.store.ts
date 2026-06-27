@@ -8,18 +8,27 @@ type JobState = {
     error: string;
     categories: string[];
     typeJob: string[];
+    job: IJobs | null;
     jobs: IJobs[];
+    getJob: (value: IJobs) => void;
     getJobs: () => Promise<void>;
     getCategories: () => Promise<void>;
+    cleanJob: () => void;
 };
 
 export const useJobStore = create<JobState>((set) => ({
     loading: true,
     jobCounts: 0,
     error: '',
+    job: null,
     jobs: [],
     typeJob: [],
     categories: [],
+    getJob: (job: IJobs) => {
+        set({
+            job: job,
+        });
+    },
     getJobs: async () => {
         try {
             const jobs = await apiGetJobs();
@@ -45,4 +54,9 @@ export const useJobStore = create<JobState>((set) => ({
             categories: categories.categories
         });
     },
+    cleanJob: () => {
+        set({
+            job: null
+        });
+    }
 }));

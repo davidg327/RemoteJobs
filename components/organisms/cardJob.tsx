@@ -1,5 +1,5 @@
 import {Image} from "expo-image";
-import {StyleSheet, View} from "react-native";
+import {StyleSheet, TouchableOpacity, View} from "react-native";
 import {ThemedText} from "@/components/atoms";
 import {useColorScheme} from "@/hooks/use-color-scheme";
 import {getCity, getOnlyName} from "@/util/splitName";
@@ -8,14 +8,17 @@ import {Colors} from "@/constants/theme";
 import {date} from "@/util/date";
 
 interface ICardJob {
-    job: IJobs
+    job: IJobs;
+    redirect: () => void;
 }
-export function CardJob({job}: ICardJob) {
+export function CardJob({job, redirect}: ICardJob) {
     const colorScheme = useColorScheme();
     const styles =  stylesCard(colorScheme);
 
     return (
-        <View style={styles.container}>
+        <TouchableOpacity
+            onPress={redirect}
+            style={styles.container}>
             <Image
                 source={{uri: job.companyLogo}}
                 style={styles.image}
@@ -36,7 +39,7 @@ export function CardJob({job}: ICardJob) {
                     </ThemedText>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 

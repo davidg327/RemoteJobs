@@ -21,6 +21,7 @@ export function JobTemplate () {
         visibleJobs,
         disabledJobsFilter,
         moreJobs,
+        redirect,
         refreshJobs,
         selectFilter,
         selectVariousFilter,
@@ -64,6 +65,7 @@ export function JobTemplate () {
                     newLoading={newLoading}
                     text={disabledJobsFilter ? 'No hay ofertas en estos momentos' : 'No hay coincidencias'}
                     moreJobs={moreJobs}
+                    redirect={redirect}
                     refreshJobs={refreshJobs}
                 />
             </View>

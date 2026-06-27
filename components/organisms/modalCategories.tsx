@@ -1,6 +1,6 @@
-import {RefObject, useEffect, useMemo, useState} from "react";
+import {RefObject, useMemo, useState} from "react";
 import {StyleSheet, TouchableOpacity, View} from "react-native";
-import BottomSheet, {BottomSheetView} from "@gorhom/bottom-sheet";
+import BottomSheet, {BottomSheetScrollView} from "@gorhom/bottom-sheet";
 import {Modal} from "@/components/molecules";
 import {ThemedText} from "@/components/atoms";
 import {categoryJobs} from "@/util/numCategoryJob";
@@ -43,24 +43,38 @@ export function ModalCategories ({
             onClose={() => setFilters(filterDefault)}
             onOpen={() =>  setFilters(filterDefault)}
         >
-            <BottomSheetView style={styles.container}>
-                <ThemedText type='miniBold' darkColor={black}>
+            <BottomSheetScrollView style={styles.container}>
+                <ThemedText type='miniBold' darkColor={black} style={styles.textTitle}>
                    Lista de categorías
                 </ThemedText>
-                <View style={styles.containerCategories}>
+                <View
+                    style={styles.containerCategories}
+                >
                     <>
-                        {categories.length > 0  && categories.map((category, index) => {
+                        {categories.map((category, index) => {
                             const selected = filters.includes(category);
-                            return  <TouchableOpacity
-                                key={`${category}-${index}`}
-                                onPress={() => {
-                                    selectFilter(category)
-                                }}
-                                style={{...styles.category, backgroundColor: selected ? success : 'transparent'}}>
-                                <ThemedText type='simpleText' darkColor={selected ? white : black}>
-                                    {categoryJobs[category] ?? category}
-                                </ThemedText>
-                            </TouchableOpacity>
+
+                            return (
+                                <TouchableOpacity
+                                    key={`${category}-${index}`}
+                                    onPress={() => selectFilter(category)}
+                                    style={[
+                                        styles.category,
+                                        {
+                                            backgroundColor: selected
+                                                ? success
+                                                : "transparent",
+                                        },
+                                    ]}
+                                >
+                                    <ThemedText
+                                        type="simpleText"
+                                        darkColor={selected ? white : black}
+                                    >
+                                        {categoryJobs[category] ?? category}
+                                    </ThemedText>
+                                </TouchableOpacity>
+                            );
                         })}
                     </>
                 </View>
@@ -75,15 +89,17 @@ export function ModalCategories ({
                         Filtrar
                     </ThemedText>
                 </TouchableOpacity>
-            </BottomSheetView>
+            </BottomSheetScrollView>
         </Modal>
     )
 }
 
 const styles = StyleSheet.create({
     button: {
+        alignSelf: 'center',
         backgroundColor: success,
         borderRadius: 12,
+        marginBottom: 20,
         marginTop: 40,
         paddingVertical: 10,
         width: '90%'
@@ -96,18 +112,21 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
     },
     container: {
-        alignItems: 'center',
         flex: 1,
     },
     containerCategories: {
         flexDirection: "row",
         flexWrap: "wrap",
         gap: 10,
-        marginTop: 20,
         paddingHorizontal: 20,
     },
     textButton: {
         color: white,
+        textAlign: 'center',
+    },
+    textTitle: {
+        marginBottom: 20,
+        marginTop: 20,
         textAlign: 'center',
     },
 });

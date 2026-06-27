@@ -5,7 +5,17 @@ import { useThemeColor } from '@/hooks/use-theme-color';
 export type ThemedTextProps = TextProps & {
   lightColor?: string;
   darkColor?: string;
-  type?: 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link' | 'miniBold' | 'simpleText' | 'thin';
+  type?:
+      'default'
+      |'title'
+      | 'defaultSemiBold'
+      | 'defaultBold'
+      | 'miniSemiBold'
+      | 'subtitle'
+      | 'link'
+      | 'miniBold'
+      | 'simpleText'
+      | 'thin';
 };
 
 export function ThemedText({
@@ -24,6 +34,8 @@ export function ThemedText({
         type === 'default' ? styles.default : undefined,
         type === 'title' ? styles.title : undefined,
         type === 'defaultSemiBold' ? styles.defaultSemiBold : undefined,
+        type === 'miniSemiBold' ? styles.miniSemiBold : undefined,
+        type === 'defaultBold' ? styles.defaultBold : undefined,
         type === 'subtitle' ? styles.subtitle : undefined,
         type === 'link' ? styles.link : undefined,
         type === 'miniBold' ? styles.miniBold : undefined,
@@ -46,6 +58,11 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     fontWeight: '600',
   },
+  defaultBold: {
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: '800',
+  },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
@@ -62,6 +79,10 @@ const styles = StyleSheet.create({
   },
   miniBold: {
     fontSize: 14,
+    fontWeight: '800',
+  },
+  miniSemiBold: {
+    fontSize: 12,
     fontWeight: '800',
   },
   simpleText: {
