@@ -1,15 +1,17 @@
 import React from "react";
-import {ScrollView, TouchableOpacity, View} from "react-native";
-import {IconSymbol} from "@/components/atoms";
-import {Header, Search} from "@/components/molecules";
-import {CardTypeJob, ListJobs, ModalCategories} from "@/components/organisms";
-import {useJobTemplate} from "@/hooks/template/use-job-template";
+import {View} from "react-native";
+import {Header} from "@/components/molecules";
+import {ListJobs, ModalDelete} from "@/components/organisms";
 import {useFavoriteTemplate} from "@/hooks/template/use-favorite-template";
 
 export function FavoriteTemplate () {
 
     const {
         favorites,
+        modal,
+        cancelDelete,
+        deleteFavorite,
+        handleConfirmDelete,
         redirect,
     } = useFavoriteTemplate();
 
@@ -24,6 +26,12 @@ export function FavoriteTemplate () {
                 moreJobs={() => {}}
                 redirect={redirect}
                 refreshJobs={() => {}}
+                deleteFavorite={deleteFavorite}
+            />
+            <ModalDelete
+                visible={modal}
+                cancelDelete={cancelDelete}
+                handleConfirmDelete={handleConfirmDelete}
             />
         </View>
     )

@@ -48,6 +48,7 @@ const stylesCard = (colorScheme: 'light' | 'dark' | null | undefined) =>
         container: {
             alignItems: 'center',
             alignSelf: 'center',
+            backgroundColor: Colors[colorScheme ?? 'light'].background,
             borderColor: Colors[colorScheme ?? 'light'].text,
             borderRadius: 10,
             borderWidth: 1,

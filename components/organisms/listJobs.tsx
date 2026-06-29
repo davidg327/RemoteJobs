@@ -1,6 +1,7 @@
 import {JSX} from "react";
-import {FlatList, StyleSheet} from "react-native";
-import {LoadingComponent} from "@/components/atoms";
+import ReanimatedSwipeable from "react-native-gesture-handler/ReanimatedSwipeable";
+import {FlatList, StyleSheet, TouchableOpacity} from "react-native";
+import {IconSymbol, LoadingComponent} from "@/components/atoms";
 import {CardJob} from "@/components/organisms/cardJob";
 import {EmptyTemplate} from "@/components/template/EmptyTemplate";
 import {useColorScheme} from "@/hooks/use-color-scheme";
@@ -15,7 +16,22 @@ interface IListJob {
     moreJobs: () => void;
     redirect: (value: IJobs) => void;
     refreshJobs: () => void;
+    deleteFavorite?: (id: number) =>void;
 }
+const white = '#FFFFFF';
+
+const renderRightActions = (
+    item: IJobs,
+    deleteFavorite: (id: number) => void,
+) => (
+    <TouchableOpacity
+        style={styles.swipeable}
+        onPress={() => deleteFavorite(item.id)}
+    >
+        <IconSymbol name="trash.fill" color={white} />
+    </TouchableOpacity>
+);
+
 export function ListJobs({
                              jobs,
                              loading,
@@ -24,14 +40,25 @@ export function ListJobs({
                              moreJobs,
                              redirect,
                              refreshJobs,
+                             deleteFavorite,
                          }: IListJob) {
     const colorScheme = useColorScheme();
 
     const color = Colors[colorScheme ?? 'light'].success;
 
-    const renderItem: ({item}: { item: any }) => JSX.Element = ({ item }) => (
-        <CardJob job={item} redirect={() => redirect(item)} />
-    );
+    const renderItem: ({item}: { item: any }) => JSX.Element = ({ item }) => {
+        return (
+            <ReanimatedSwipeable
+                renderRightActions={() =>
+                    deleteFavorite
+                        ? renderRightActions(item, deleteFavorite)
+                        : null
+                }
+            >
+                <CardJob job={item} redirect={() => redirect(item)} />
+            </ReanimatedSwipeable>
+        );
+    };
 
     return (
         <FlatList
@@ -64,6 +91,16 @@ const styles = StyleSheet.create({
     container: {
         paddingTop: 20,
         paddingBottom: 180,
+    },
+    swipeable: {
+        alignItems: "center",
+        backgroundColor: "red",
+        borderBottomRightRadius: 12,
+        borderTopRightRadius: 12,
+        justifyContent: "center",
+        height: '88%',
+        marginRight: 20,
+        width: '20%',
     }
 });
 

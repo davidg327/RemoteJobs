@@ -18,6 +18,7 @@ const MAPPING = {
   'heart.fill': 'favorite',
   'share.fill': 'share',
   'search.fill': 'search',
+  'trash.fill': 'delete',
   'filter.fill': 'filter-alt',
   'paperplane.fill': 'send',
   'chevron.left': 'chevron-left',
